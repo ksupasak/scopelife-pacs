@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    dicom (0.9.8)
+    parallel (1.12.1)
+    rmagick (2.16.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dicom
+  parallel
+  rmagick
+
+BUNDLED WITH
+   1.17.1
