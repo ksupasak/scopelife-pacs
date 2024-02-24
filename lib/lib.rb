@@ -101,8 +101,8 @@ def convert_dicom img_path, options
     
     tmp_img = img_path.gsub('pdf','jpg')
     
-    `convert -density 700 #{img_path} -resize 25% -append -quality 98 -sharpen 0x1.0 -background white -alpha remove -flatten  #{tmp_img}`
-    
+    # `convert -density 700 #{img_path} -resize 25% -append -quality 98 -sharpen 0x1.0 -background white -alpha remove -flatten  #{tmp_img}`
+    `convert -density 700 #{img_path} -resize 25%  -quality 98 -sharpen 0x1.0 -background white -alpha remove  +adjoin p_%01d_#{tmp_img}`
     img_path = tmp_img
     
     dcm_template = DICOM::DObject.new
