@@ -324,6 +324,7 @@ if i['report']
 
   out = File.open(logpath,'w')
   out.puts cmx
+  out.puts log 
   out.close
 
 
@@ -439,6 +440,7 @@ end
 
     out = File.open(logpath,'w')
           out.puts cmx
+          out.puts log
     out.close
 
      end
@@ -487,6 +489,9 @@ def run(opts)
         
         
         while q = web_app.settings.queue.shift
+         
+
+        thr =   Thread.new do  
           
             puts q.inspect
             
@@ -581,10 +586,10 @@ def run(opts)
 
             
             
+        end    
+	            
             
-            
-            
-            
+          thr.join  
             
             
             
