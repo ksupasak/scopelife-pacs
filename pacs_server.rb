@@ -133,9 +133,10 @@ index = i['index']
 id = i['module_id']
 id = i['module_id']['$oid'] if i['module_id'].is_a?(Hash)
 
+sid = "#{i['hn'].split("/").join}-#{i['ae']}-#{i['id']}"
 
 # puts i.inspect
-path = File.join(storage,run_stamp,id)
+path = File.join(storage,run_stamp,sid)
 
 # stage 1 test folder created
 
