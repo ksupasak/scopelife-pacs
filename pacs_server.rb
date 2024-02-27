@@ -59,6 +59,8 @@ require 'sinatra/base'
 # host = 'https://colo.emr-life.com'
 # host = 'https://colo.emrlife.com'
 
+INSTITUTION_NAME=ENV['RUBY_VERSION']
+
 ae_title = AE_TITLE
 ae_ip = AE_IP
 ae_port = AE_PORT
