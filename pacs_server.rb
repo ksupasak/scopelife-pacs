@@ -401,7 +401,7 @@ def run(opts)
     
       EventMachine.add_periodic_timer(5) do
         
-        puts 'every 10 sec'
+        puts "every 10 sec #{INSTITUTION_NAME}"
         
         
         while q = web_app.settings.queue.shift
