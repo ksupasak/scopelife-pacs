@@ -163,8 +163,49 @@ end
 
 index +=1
 
+idx_path = File.join(storage,run_stamp,"#{i['ae']}.txt")
 
-acc =  "#{stamp.strftime("%Y%m%d")}GI#{format('%04d',index_id)}"
+
+found = nil
+
+if File.exists?(idx_path)
+  
+  idx_file = File.open(idx_path)
+  lines = idx_file.read.split("\n")
+  idx_file.close
+  
+  lines.each_with_index do |il, ilx|
+    if il.index(i['id'])
+      found = ilx
+      break
+    end
+  end
+  
+  unless found
+  
+      idx_file = File.open(idx_path,'a')
+      idx_file.puts "#{i['id']}\t#{i['hn']}"
+      idx_file.close
+      found = lines.size
+      
+  end
+  
+else
+  
+  idx_file = File.open(idx_path,'a')
+  idx_file.puts "#{i['id']}\t#{i['hn']}"
+  idx_file.close
+  found = 0 
+  
+  
+end
+
+
+index_id = found if found
+
+
+
+acc =  "#{stamp.strftime("%Y%m%d")}ES#{format('%04d',index_id)}"
 
 acc =   i['acc'] if i['acc']
 
@@ -436,7 +477,7 @@ def run(opts)
                solutions = lines.collect{|i| i if i[0] == params[:name]}.compact if params[:name]
                
               puts 'pre'
-	      puts solutions.inspect 
+	            puts solutions.inspect 
 
                for s in solutions
 
@@ -477,7 +518,7 @@ def run(opts)
                    puts line.inspect.to_s
 
                    if params[:id] and ( line['id'] == params[:id] or line['id']['$oid'] == params[:id])
-
+                     line['id'] = line['id']['$oid'] if line['id']['$oid'] == params[:id]
                      list << line
 
                    else
