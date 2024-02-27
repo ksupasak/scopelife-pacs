@@ -195,7 +195,7 @@ now = Time.now
         options[:acc] = acc
         options[:study_id] = study_id
         options[:note] = i['title']
-
+        options[:institution_name] = INSTITUTION_NAME
         options[:study_name] = i['ae'].upcase
 
         main_options = options
@@ -312,7 +312,7 @@ if true
           options[:study_at] = stamp
           options[:record_at] = Date.parse(j['created_at'])
           options[:idx] = j['idx']
-          options[:ae] = 'EMRENDOSCOPE'
+          options[:ae] = 'SCOPELIFE'
           options[:station_name] = 'GI'
           options[:model_name] = 'SCOPE-LIFE'
           options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'

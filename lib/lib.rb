@@ -1,5 +1,5 @@
 require 'dicom'
-require 'RMagick'
+require 'rmagick'
 include Magick
 include DICOM
 
@@ -145,7 +145,7 @@ def convert_dicom img_path, options
 0008,0055\t#{ae}\tAE ttile
 0008,0060\t#{modality}	Modality
 0008,0070\t#{manufacturer}\tE.S.M.Solution	Manufacturer
-0008,0080\t#{institution_name}\tEMR-LIFE	Institution Name
+0008,0080\t#{institution_name}\t	Institution Name
 0008,1010\t#{station_name}	Station Name
 0008,1090\t#{model_name}\tModel Name
 0010,0020\t#{hn}\tPatient's ID
