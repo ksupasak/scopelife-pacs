@@ -222,7 +222,7 @@ now = Time.now
 
         options = {}
 
-        options[:hn] = i['hn'].split('/').join('-')
+        options[:hn] = i['hn'].split(HN_SPLITJOIN[0]).join(HN_SPLITJOIN[1])
         options[:patient_name] = i['name']
         options[:patient_age] = i['age']
         options[:patient_gender] = i['gender']
@@ -365,10 +365,7 @@ if true
 
            options = main_options.clone
 
-           options[:hn] = i['hn'].split(HN_SPLITJOIN[0]).join(HN_SPLITJOIN[1])
-           options[:patient_name] = i['name']
-           options[:patient_age] = i['age']
-           options[:patient_gender] = i['gender']
+        
 
            options[:modality] = 'ES'
            options[:study_at] = stamp
