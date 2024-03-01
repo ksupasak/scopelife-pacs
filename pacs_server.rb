@@ -329,7 +329,7 @@ if true
          # ,"created_at":"2023-12-14T12:34:03.350+07:00","idx":0}
           begin
          # stage 2 test all image download
-          if j['ref'].index('PACS')
+          if j['ref'].index('PACS') or j['ref']==nil
            
            fpath = File.join(path, "#{j['id']}.jpg")
            furi = "#{emr_host}#{j['path']}"
