@@ -185,7 +185,7 @@ if File.exists?(idx_path)
   unless found
   
       idx_file = File.open(idx_path,'a')
-      idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}\t#{solution_name}"
+      idx_file.puts "#{i['id']}\t#{solution_name}\t#{i['ae']}\t#{i['hn']}"
       idx_file.close
       found = lines.size
       
@@ -194,7 +194,7 @@ if File.exists?(idx_path)
 else
   
   idx_file = File.open(idx_path,'a')
-  idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}\t#{solution_name}"
+  idx_file.puts "#{i['id']}\t#{solution_name}\t#{i['ae']}\t#{i['hn']}"
   idx_file.close
   found = 0 
   
