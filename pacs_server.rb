@@ -567,13 +567,14 @@ def run(opts)
 
              end
              
-             busy = false
+            
+             
              
        
         end    
-	            
+	             busy = false
             
-          
+      end
         
             
           
