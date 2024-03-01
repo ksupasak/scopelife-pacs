@@ -115,7 +115,7 @@ end
 
 
 
-def send_batch list , emr_host
+def send_batch list , emr_host, solution_name
 
 
   storage = "media/dicom"
@@ -185,7 +185,7 @@ if File.exists?(idx_path)
   unless found
   
       idx_file = File.open(idx_path,'a')
-      idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}"
+      idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}\t#{solution_name}"
       idx_file.close
       found = lines.size
       
@@ -194,7 +194,7 @@ if File.exists?(idx_path)
 else
   
   idx_file = File.open(idx_path,'a')
-  idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}"
+  idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}\t#{solution_name}"
   idx_file.close
   found = 0 
   
@@ -532,7 +532,7 @@ def run(opts)
 
                   puts list.size
 
-                  send_batch list, emr_host
+                  send_batch list, emr_host, params[:name]
 
                end
 
