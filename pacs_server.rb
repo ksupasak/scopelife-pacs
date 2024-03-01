@@ -467,10 +467,13 @@ def run(opts)
       signals: false,
     })
     
+    busy = false
+    
       EventMachine.add_periodic_timer(5) do
         
         puts "every 10 sec #{INSTITUTION_NAME}"
         
+        if busy == false
         
         while q = web_app.settings.queue.shift
          
@@ -478,6 +481,8 @@ def run(opts)
         thr = Thread.new(q) do |q|  
           
             puts q.inspect
+            
+            busy = true
             
               params = {}
             
@@ -557,10 +562,13 @@ def run(opts)
                   puts list.size
 
                   send_batch list, emr_host, params[:name]
-
+                  
                end
 
              end
+             
+             busy = false
+             
        
         end    
 	            
