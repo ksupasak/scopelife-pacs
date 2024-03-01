@@ -471,7 +471,7 @@ def run(opts)
     
       EventMachine.add_periodic_timer(5) do
         
-        puts "every 10 sec #{INSTITUTION_NAME}"
+        puts "every 10 sec #{INSTITUTION_NAME} status Busy : #{busy}"
         
         if busy == false
         
