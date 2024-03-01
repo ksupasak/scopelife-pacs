@@ -61,6 +61,7 @@ require 'sinatra/base'
 
 INSTITUTION_NAME=ENV['INSTITUTION_NAME']
 
+ae_src = AE_SRC
 ae_title = AE_TITLE
 ae_ip = AE_IP
 ae_port = AE_PORT
@@ -163,7 +164,7 @@ end
 
 index +=1
 
-idx_path = File.join(storage,run_stamp,"#{i['ae']}.txt")
+idx_path = File.join(storage,run_stamp,"index.txt")
 
 
 found = nil
@@ -184,7 +185,7 @@ if File.exists?(idx_path)
   unless found
   
       idx_file = File.open(idx_path,'a')
-      idx_file.puts "#{i['id']}\t#{i['hn']}"
+      idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}"
       idx_file.close
       found = lines.size
       
@@ -193,7 +194,7 @@ if File.exists?(idx_path)
 else
   
   idx_file = File.open(idx_path,'a')
-  idx_file.puts "#{i['id']}\t#{i['hn']}"
+  idx_file.puts "#{i['id']}\t#{i['hn']}\t#{i['ae']}"
   idx_file.close
   found = 0 
   
@@ -229,7 +230,7 @@ now = Time.now
         options[:study_at] = stamp
         options[:record_at] = Date.parse(i['created_at'])
         options[:idx] = 0
-        options[:ae] = 'SCOPELIFE'
+        options[:ae] = 'EMRENDOSCOPE'
         options[:station_name] = 'GI-Report'
         options[:model_name] = 'SCOPE-LIFE'
         options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
@@ -282,7 +283,7 @@ if i['report']
   
   pages.each_with_index do |p,pi|
 
-  report_options[:idx] = pi
+  report_options[:idx] = "90#{pi}"
 
   dpath =   p.gsub('jpg','dcm')
 
@@ -296,7 +297,7 @@ if i['report']
   
   if File.exists?(dpath)
  
-  cmx = "storescu -v -xe -to 5 -aet SCOPELIFE -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
+  cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
   log = `#{cmx}` #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
 
   puts cmx
@@ -354,8 +355,8 @@ if true
           options[:modality] = 'ES'
           options[:study_at] = stamp
           options[:record_at] = Date.parse(j['created_at'])
-          options[:idx] = j['idx']
-          options[:ae] = 'SCOPELIFE'
+          options[:idx] = "10#{j['idx']}"
+          options[:ae] = 'EMRENDOSCOPE'
           options[:station_name] = 'GI'
           options[:model_name] = 'SCOPE-LIFE'
           options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
@@ -390,7 +391,7 @@ if true
 
     # -xs
     # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
-    cmx = "storescu -v -xe -to 5 -aet SCOPELIFE -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
+    cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
     log = `#{cmx}` #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
 
     puts cmx
@@ -518,7 +519,7 @@ def run(opts)
                    puts line.inspect.to_s
 
                    if params[:id] and ( line['id'] == params[:id] or line['id']['$oid'] == params[:id])
-                     line['id'] = line['id']['$oid'] if line['id']['$oid'] == params[:id]
+                     # line['id'] = line['id']['$oid'] if line['id']['$oid'] == params[:id]
                      list << line
 
                    else
