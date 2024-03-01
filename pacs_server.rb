@@ -298,7 +298,7 @@ if i['report']
   if File.exists?(dpath)
  
   cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
-  log = `#{cmx}` #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
+  log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}` 
 
   puts cmx
   
@@ -392,7 +392,7 @@ if true
     # -xs
     # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
     cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
-    log = `#{cmx}` #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
+    log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
 
     puts cmx
 
