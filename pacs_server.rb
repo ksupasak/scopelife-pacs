@@ -68,7 +68,7 @@ ae_port = AE_PORT
 emr_host = HOST
 api_path = API_PATH
 spec_date = DATE
-wkhtmltopdf = ENV['WKHTMLTOPDF']
+
 
 date = Time.now
 
@@ -260,7 +260,7 @@ if i['report']
   puts 'Generate Report '+i['report']
 
   report_url = "#{emr_host}/#{i['report']}"
-  cmd = "#{wkhtmltopdf} '#{report_url}' #{rpath}"
+  cmd = "#{WKHTMLTOPDF} '#{report_url}' #{rpath}"
   out = `#{cmd}`
 
   report_options = main_options.clone
