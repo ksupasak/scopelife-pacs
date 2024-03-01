@@ -11,7 +11,7 @@ require 'date'
 
 require_relative 'lib/lib'
 require_relative 'config'
-
+require_relative 'system_config'
 
 include Magick
 include DICOM
@@ -318,104 +318,130 @@ end
 
 
 if true
+  
+  
+  num_workers = NUM_WORKERS
 
+  # Create a thread-safe Queue for jobs
+  job_queue = Queue.new
+  
+  
+  for j in i['imgs']
+    
+    job_queue.push(j)
+    
+  end
 
-
- # Parallel.map(i['imgs'], in_processes: 10) do |j|
-
- # Parallel.map(i['imgs'], in_processes: 10) do |j|
-   for j in i['imgs'] 
-         # :[{"id":"657a93cb790f9b2e3b000008","path":"/content/esm/colo/colo/content/colonoscopy/image/657a93cb790f9b2e3b000008.jpg"
-         # ,"created_at":"2023-12-14T12:34:03.350+07:00","idx":0}
-          begin
-         # stage 2 test all image download
-          if j['ref']==nil or (j['ref'] and j['ref'].index('PACS'))
+  workers = Array.new(num_workers) do |w|
+    Thread.new do
+      worker_id = w + 1
+      # Each worker keeps processing jobs until the queue is empty
+      until job_queue.empty?
+        j = job_queue.pop(true) rescue nil
+        
+        
+        unless j.nil?
+          
+          
+          # ,"created_at":"2023-12-14T12:34:03.350+07:00","idx":0}
+           begin
+          # stage 2 test all image download
+           if j['ref']==nil or (j['ref'] and j['ref'].index('PACS'))
            
-           fpath = File.join(path, "#{j['id']}.jpg")
-           furi = "#{emr_host}#{j['path']}"
+            fpath = File.join(path, "#{j['id']}.jpg")
+            furi = "#{emr_host}#{j['path']}"
 
-           puts "image :  - #{furi} #{j['path']}"
-           unless File.exists?(fpath)
-             `curl --insecure #{furi} > #{fpath}`
-           end
+            puts "image :  - #{furi} #{j['path']}"
+            unless File.exists?(fpath)
+              `curl --insecure #{furi} > #{fpath}`
+            end
 
-           puts fpath
+            puts fpath
 
-           dpath = File.join(path, "#{j['id']}.dcm")
-           logpath = File.join(path, "#{j['id']}.log")
+            dpath = File.join(path, "#{j['id']}.dcm")
+            logpath = File.join(path, "#{j['id']}.log")
 
-        if true # unless File.exists?(dpath)
+         if true # unless File.exists?(dpath)
 
-          options = main_options.clone
+           options = main_options.clone
 
-          options[:hn] = i['hn'].split('/').join('-')
-          options[:patient_name] = i['name']
-          options[:patient_age] = i['age']
-          options[:patient_gender] = i['gender']
+           options[:hn] = i['hn'].split('/').join('-')
+           options[:patient_name] = i['name']
+           options[:patient_age] = i['age']
+           options[:patient_gender] = i['gender']
 
-          options[:modality] = 'ES'
-          options[:study_at] = stamp
-          options[:record_at] = Date.parse(j['created_at'])
-          options[:idx] = "10#{j['idx']}"
-          options[:ae] = 'EMRENDOSCOPE'
-          options[:station_name] = 'GI'
-          options[:model_name] = 'SCOPE-LIFE'
-          options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
+           options[:modality] = 'ES'
+           options[:study_at] = stamp
+           options[:record_at] = Date.parse(j['created_at'])
+           options[:idx] = "10#{j['idx']}"
+           options[:ae] = 'EMRENDOSCOPE'
+           options[:station_name] = 'GI'
+           options[:model_name] = 'SCOPE-LIFE'
+           options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
 
-          options[:device_sn] = '00000'
-          options[:sw_version] = '2.0.1'
-          options[:acc] = acc
-          options[:study_id] = study_id
-          options[:note] = i['title']
+           options[:device_sn] = '00000'
+           options[:sw_version] = '2.0.1'
+           options[:acc] = acc
+           options[:study_id] = study_id
+           options[:note] = i['title']
 
-          options[:study_name] = i['ae'].upcase
+           options[:study_name] = i['ae'].upcase
 
-          puts options.inspect
+           puts options.inspect
 
-          convert_dicom fpath, options
-
-
-          # convert_dicom_json  j, fpath
+           convert_dicom fpath, options
 
 
-         # `dcmcjpeg --encode-lossless #{dpath} #{dpath}`
+           # convert_dicom_json  j, fpath
 
 
-           end
-
-#        rescue Exception =>e 
- #          puts e.inspect #
-#	end
+          # `dcmcjpeg --encode-lossless #{dpath} #{dpath}`
 
 
-    if true # unless File.exists?(logpath)
+            end
 
-    # -xs
-    # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
-    cmx = "storescu -v -xe -to 5 -aet #{AE_SRC} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
-    log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
+ #        rescue Exception =>e 
+  #          puts e.inspect #
+ #	end
 
-    puts cmx
 
-    out = File.open(logpath,'w')
-          out.puts cmx
-          out.puts log
-    out.close
+     if true # unless File.exists?(logpath)
+
+     # -xs
+     # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
+     cmx = "storescu -v -xe -to 5 -aet #{AE_SRC} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
+     log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
+
+     puts cmx
+
+     out = File.open(logpath,'w')
+           out.puts cmx
+           out.puts log
+     out.close
+
+      end
+
+
 
      end
 
 
-
-    end
-
-
-  rescue Exception =>e
-           puts e.inspect
+   rescue Exception =>e
+            puts e.inspect
+         end
+          
+          
+          
         end
-
-
-
+        
+      end
     end
+  end
+
+  # Wait for all worker threads to complete
+  workers.each(&:join)
+ # Parallel.map(i['imgs'], in_processes: 10) do |j|
+
 
   end
 
