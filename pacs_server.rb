@@ -68,6 +68,7 @@ ae_port = AE_PORT
 emr_host = HOST
 api_path = API_PATH
 spec_date = DATE
+wkhtmltopdf = ENV['WKHTMLTOPDF']
 
 date = Time.now
 
@@ -259,7 +260,7 @@ if i['report']
   puts 'Generate Report '+i['report']
 
   report_url = "#{emr_host}/#{i['report']}"
-  cmd = "wkhtmltopdf '#{report_url}' #{rpath}"
+  cmd = "#{wkhtmltopdf} '#{report_url}' #{rpath}"
   out = `#{cmd}`
 
   report_options = main_options.clone
@@ -297,7 +298,7 @@ if i['report']
   
   if File.exists?(dpath)
  
-  cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
+  cmx = "storescu -v -xe -to 5 -aet #{AE_SRC} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
   log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}` 
 
   puts cmx
@@ -391,7 +392,7 @@ if true
 
     # -xs
     # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
-    cmx = "storescu -v -xe -to 5 -aet #{ae_src} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
+    cmx = "storescu -v -xe -to 5 -aet #{AE_SRC} -aec #{ae_title} #{ae_ip} #{ae_port} #{dpath}"
     log = `#{cmx}` unless ENV['DEBUG'] #dcmsend -aet EMRENDOSCOPE -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}`
 
     puts cmx
