@@ -348,24 +348,32 @@ if true
           # stage 2 test all image download
            if j['ref']==nil or (j['ref'] and j['ref'].index('PACS'))
            
+           
+           
+           
+           
             fpath = File.join(path, "#{j['id']}.jpg")
             furi = "#{emr_host}#{j['path']}"
+            dpath = File.join(path, "#{j['id']}.dcm")
+            logpath = File.join(path, "#{j['id']}.log")
+
+            
+            puts "Image from : #{fpath}"
+            puts "Dicom path : #{dpath}"
+            
+            
+          unless File.exists?(dpath)
+            
 
             puts "image :  - #{furi} #{j['path']}"
             unless File.exists?(fpath)
               `curl --insecure #{furi} > #{fpath}`
             end
-
-            puts fpath
-
-            dpath = File.join(path, "#{j['id']}.dcm")
-            logpath = File.join(path, "#{j['id']}.log")
-
-         if true # unless File.exists?(dpath)
+            
+           if File.exists?(fpath)
+       
 
            options = main_options.clone
-
-        
 
            options[:modality] = 'ES'
            options[:study_at] = stamp
@@ -387,22 +395,14 @@ if true
            puts options.inspect
 
            convert_dicom fpath, options
+           
+           end
 
 
-           # convert_dicom_json  j, fpath
+        end
 
 
-          # `dcmcjpeg --encode-lossless #{dpath} #{dpath}`
-
-
-            end
-
- #        rescue Exception =>e 
-  #          puts e.inspect #
- #	end
-
-
-     if true # unless File.exists?(logpath)
+     if File.exists?(dpath)
 
      # -xs
      # cmx = "dcmsend -aec #{ae_title} -v #{ae_ip} #{ae_port} #{dpath}"
