@@ -234,7 +234,7 @@ now = Time.now
         options[:ae] = 'EMRENDOSCOPE'
         options[:station_name] = 'GI-Report'
         options[:model_name] = 'SCOPE-LIFE'
-        options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
+        options[:manufacturer] = 'E.S.M.Solution'
         options[:device_sn] = '00000'
         options[:sw_version] = '2.0.1'
         options[:acc] = acc
@@ -365,7 +365,7 @@ if true
 
            options = main_options.clone
 
-           options[:hn] = i['hn'].split('/').join('-')
+           options[:hn] = i['hn'].split(HN_SPLITJOIN[0]).join(HN_SPLITJOIN[1])
            options[:patient_name] = i['name']
            options[:patient_age] = i['age']
            options[:patient_gender] = i['gender']
