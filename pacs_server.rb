@@ -222,7 +222,7 @@ now = Time.now
 
         options = {}
 
-        options[:hn] = i['hn'].split(Regexp.union(HN_SPLITJOIN[0]).join(HN_SPLITJOIN[1])
+        options[:hn] = i['hn'].split(Regexp.union(HN_SPLITJOIN[0])).join(HN_SPLITJOIN[1])
         options[:patient_name] = i['name']
         options[:patient_age] = i['age']
         options[:patient_gender] = i['gender']
@@ -467,22 +467,22 @@ def run(opts)
       signals: false,
     })
     
-    busy = false
+    $busy = false
     
-      EventMachine.add_periodic_timer(5) do
+      EventMachine.add_periodic_timer(2) do
         
-        puts "Scan 5 seconds -> Name : #{INSTITUTION_NAME}, Busy : #{busy}, Waiting : #{ web_app.settings.queue.size}"
+        puts "Scan 5 seconds -> Name : #{INSTITUTION_NAME}, Busy : #{$busy}, Waiting : #{ web_app.settings.queue.size}"
         
-        if busy == false
+        # if $busy == false
         
-        while q = web_app.settings.queue.shift
+        if  $busy == false and q = web_app.settings.queue.shift
          
-
+          $busy = true
+          
         thr = Thread.new(q) do |q|  
           
-            puts q.inspect
-            
-            busy = true
+             puts q.inspect
+         
             
               params = {}
             
@@ -537,7 +537,8 @@ def run(opts)
 
                data = JSON.parse(content)
 
-               
+               # puts 'set busy'
+  #                     $busy = false
 
                list = []
 
@@ -567,15 +568,19 @@ def run(opts)
 
              end
              
-            
+              puts 'set busy'
+               $busy = false
              
+             
+           
              
        
         end    
-	             busy = false
+       
+      
             
-      end
-        
+      # end
+   
             
           
         end
