@@ -9,9 +9,29 @@ require 'parallel'
 require 'date'
 # require 'datetime'
 
+
+
+def translate th_name
+  
+  return `#{TRANSLATOR} "#{th_name}"`.strip.split(" ").join(" ")
+  
+end
+
+
+
+
 require_relative 'lib/lib'
 require_relative 'config'
 require_relative 'system_config'
+
+puts 'Test Name'
+
+name = translate 'ศุภศักดิ์ กุลวงศ์อนันชัย'
+
+puts name
+
+
+
 
 include Magick
 include DICOM
@@ -223,7 +243,7 @@ now = Time.now
         options = {}
 
         options[:hn] = i['hn'].split(Regexp.union(HN_SPLITJOIN[0])).join(HN_SPLITJOIN[1])
-        options[:patient_name] = i['name']
+        options[:patient_name] = translate(i['name']).upcase
         options[:patient_age] = i['age']
         options[:patient_gender] = i['gender']
 

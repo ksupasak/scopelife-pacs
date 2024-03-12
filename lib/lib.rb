@@ -73,10 +73,13 @@ def convert_dicom img_path, options
   study_id = acc
   
   patient_name = "ANON0000"
+  
   age = ""
   gender = ""
+  
   patient_name = options[:patient_name] if options[:patient_name]
-  patient_name = "ANON0000"
+
+  
   age = options[:patient_age] if options[:patient_age]
   gender = options[:patient_gender] if options[:patient_gender]
   

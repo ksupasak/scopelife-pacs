@@ -17,3 +17,9 @@ NUM_WORKERS = ENV['NUM_WORKERS'].to_i
 else
 NUM_WORKERS = 4
 end
+
+if ENV['TRANSLATOR']
+TRANSLATOR = ENV['TRANSLATOR']
+else
+TRANSLATOR = "python3 lib/translate.py"
+end
