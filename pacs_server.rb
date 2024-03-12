@@ -11,7 +11,7 @@ require 'date'
 
 
 
-def translate th_name
+def translate hn, th_name
   
   return `#{TRANSLATOR} "#{th_name}"`.strip.split(" ").join(" ")
   
@@ -243,7 +243,7 @@ now = Time.now
         options = {}
 
         options[:hn] = i['hn'].split(Regexp.union(HN_SPLITJOIN[0])).join(HN_SPLITJOIN[1])
-        options[:patient_name] = translate(i['name']).upcase
+        options[:patient_name] = translate(i['hn'], i['name']).upcase
         options[:patient_age] = i['age']
         options[:patient_gender] = i['gender']
 
