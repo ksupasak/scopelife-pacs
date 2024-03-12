@@ -26,7 +26,7 @@ require_relative 'system_config'
 
 puts 'Test Name'
 
-name = translate 'ศุภศักดิ์ กุลวงศ์อนันชัย'
+name = translate '24316/64', 'ศุภศักดิ์ กุลวงศ์อนันชัย'
 
 puts name
 
