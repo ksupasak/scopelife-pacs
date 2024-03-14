@@ -244,7 +244,7 @@ now = Time.now
 
         options[:hn] = i['hn'].split(Regexp.union(HN_SPLITJOIN[0])).join(HN_SPLITJOIN[1])
         options[:patient_name] = translate(i['hn'], i['name']).upcase
-        options[:patient_age] = i['age']
+        options[:patient_age] = "#{format("%03dY",i['age'].to_i)}"
         options[:patient_gender] = i['gender']
 
         options[:modality] = 'SC'
