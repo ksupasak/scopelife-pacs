@@ -76,10 +76,11 @@ def convert_dicom img_path, options
   
   age = ""
   gender = ""
+  patient_dob = ""
   
   patient_name = options[:patient_name] if options[:patient_name]
-
-  
+  patient_dob =  options[:patient_dob] if options[:patient_dob]
+   
   age = options[:patient_age] if options[:patient_age]
   gender = options[:patient_gender] if options[:patient_gender]
   
@@ -153,6 +154,7 @@ def convert_dicom img_path, options
 0008,1090\t#{model_name}\tModel Name
 0010,0020\t#{hn}\tPatient's ID
 0010,0010\t#{patient_name}\tPatient's Name
+0010,0030\t#{patient_dob}\tPatient Birthdate
 0010,1010\t#{age}
 0010,0040\t#{gender}
 0018,1000\t#{device_sn}	Device Serial Number

@@ -148,6 +148,10 @@ def send_batch list , emr_host, solution_name
 
 for i in list
 
+
+  begin
+
+
 work_q = Queue.new
 puts i
 run_stamp = i['created_at'].split("T")[0].gsub('-','/')
@@ -246,7 +250,7 @@ now = Time.now
         options[:patient_name] = translate(i['hn'], i['name']).upcase
         options[:patient_age] = "#{format("%03dY",i['age'].to_i)}"
         options[:patient_gender] = i['gender']
-
+        options[:patient_dob] = i['birth_date'] if i['birth_date'] and i['birth_date'].size>0 
         options[:modality] = 'SC'
         options[:study_at] = stamp
         options[:record_at] = Date.parse(i['created_at'])
@@ -460,7 +464,14 @@ if true
  # Parallel.map(i['imgs'], in_processes: 10) do |j|
 
 
+
+
   end
+  
+  
+rescue Exception =>e
+         puts e.inspect
+      end
 
   end
 
