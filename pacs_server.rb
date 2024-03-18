@@ -350,9 +350,9 @@ if true
   job_queue = Queue.new
   
   
-  for j in i['imgs']
+  for job in i['imgs']
     
-    job_queue.push(j)
+    job_queue.push(job)
     
   end
 

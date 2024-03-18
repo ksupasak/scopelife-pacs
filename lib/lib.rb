@@ -159,7 +159,7 @@ def convert_dicom img_path, options
 0010,0040\t#{gender}
 0018,1000\t#{device_sn}	Device Serial Number
 0018,1020\t#{sw_version}	Software Version(s)
-0020,0013\t#{uix}	Instance Number
+0020,0013\t#{uix}\tInstance Number
 0008,0050\t#{acc}\tAccession Number
 0018,1012\t#{date}
 0018,1014\t#{time}
