@@ -51,8 +51,8 @@ def convert_dicom img_path, options
   # sop_uid  =  "#{'1.2.840.1136190195280574824680000700.3.0.1'}.#{uix}"
   # study_uid = "#{'1.2.840.1136190195280574824680000700.3.0.1'}.#{uix}"
 
-  date = stamp.strftime("%Y%m%d")
-  time = stamp.strftime("%H%M%S")
+  date = study_date.strftime("%Y%m%d")
+  time = study_time.strftime("%H%M%S")
 
 
   sop_class_uid = '1.2.840.10008.5.1.4.1.1.7'

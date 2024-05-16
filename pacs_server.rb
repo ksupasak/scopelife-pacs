@@ -404,7 +404,7 @@ if true
 
            options[:modality] = 'ES'
            options[:study_at] = stamp
-           options[:record_at] = Date.parse(j['created_at'])
+           options[:record_at] = stamp #Date.parse(j['created_at'])
            options[:idx] = "10#{j['idx']}"
            options[:ae] = 'EMRENDOSCOPE'
            options[:station_name] = 'GI'
