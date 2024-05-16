@@ -7,6 +7,7 @@ require 'fileutils'
 require 'thread'
 require 'parallel'
 require 'date'
+require 'time'
 # require 'datetime'
 
 
@@ -136,8 +137,9 @@ end
 
 
 
-def send_batch list , emr_host, solution_name
+def send_batch list , emr_host, solution_name, dep="GI"
 
+  puts "REQ : #{solution_name}|#{dep}|#{emr_host}"
 
   storage = "media/dicom"
 
@@ -253,12 +255,13 @@ now = Time.now
         options[:patient_dob] = i['birth_date'] if i['birth_date'] and i['birth_date'].size>0 
         options[:modality] = 'SC'
         options[:study_at] = stamp
-        options[:record_at] = Date.parse(i['created_at'])
+        options[:record_at] = Time.parse(i['created_at'])
         options[:idx] = 0
         options[:ae] = 'EMRENDOSCOPE'
         options[:station_name] = 'GI-Report'
         options[:model_name] = 'SCOPE-LIFE'
         options[:manufacturer] = 'E.S.M.Solution'
+        options[:department_name] = "#{dep}"
         options[:device_sn] = '00000'
         options[:sw_version] = '2.0.1'
         options[:acc] = acc
@@ -407,6 +410,7 @@ if true
            options[:station_name] = 'GI'
            options[:model_name] = 'SCOPE-LIFE'
            options[:manufacturer] = 'E.S.M.Solution Co.,Ltd.'
+     
 
            options[:device_sn] = '00000'
            options[:sw_version] = '2.0.1'
@@ -529,7 +533,7 @@ def run(opts)
                date = params[:date] if params[:date]
                rid = "&id=#{params[:id]}" if params[:id]
 
-               lines = File.open('list.tsv').readlines.collect{|i| i.split(" ")}
+               lines = File.open('list.tsv').readlines.collect{|i| i.split("\t")}
 
                puts lines.inspect
 
@@ -542,16 +546,16 @@ def run(opts)
 
                for s in solutions
 
-                 sname, spath = s
+                 sname, spath, sdep = s
 
-                 puts sname +" " + spath
+                 puts sname +" " + spath +" "+sdep
 
 
                # uri = URI("#{emr_host}#{api_path}?date=#{date}&id=#{rid}")
                uri = URI("#{spath}?date=#{date}&id=#{rid}")
 
                emr_host = "#{spath.split('/')[0]}//#{uri.host}"
-
+               emr_dep = "#{sdep.strip}"
 
 
                puts uri
@@ -593,7 +597,7 @@ def run(opts)
 
                   puts list.size
 
-                  send_batch list, emr_host, params[:name]
+                  send_batch list, emr_host, params[:name], emr_dep
                   
                end
 

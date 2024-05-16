@@ -24,6 +24,7 @@ def convert_dicom img_path, options
   
   institution_name = options[:institution_name]
   station_name = options[:station_name]
+  department_name = options[:department_name]
 
   model_name = options[:model_name]
   manufacturer = options[:manufacturer]
@@ -165,11 +166,10 @@ def convert_dicom img_path, options
 0018,1014\t#{time}
 0008,1030\t#{study_name}
 0008,0022\t#{record_date}
-0008,0032\t#{record_time}
 0008,0023\t#{date}\tContentTime Date
 0008,0033\t#{time}\tContentTime Time
 0020,4000\t 
-0008,1040\t#{station_name}
+0008,1040\t#{department_name}
 0040,0254\t#{study_name}
 0008,1050\t#{doctor_name}
 0018,1030\t#{procedure}
