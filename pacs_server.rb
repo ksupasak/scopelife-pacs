@@ -452,7 +452,11 @@ if true
 
 
    rescue Exception =>e
+     
             puts e.inspect
+            
+            puts e.backtrace
+            
          end
           
           
