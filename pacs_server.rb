@@ -180,7 +180,9 @@ FileUtils.mkdir_p path unless File.exists?(path)
 #     begin
        #
        # while j = work_q.pop(true)
-stamp = DateTime.parse(i['created_at'])
+# stamp = DateTime.parse(i['created_at'])
+stamp = Time.iso8601(i['created_at']).localtime
+
 
 
 index_id = index + 1
@@ -255,7 +257,7 @@ now = Time.now
         options[:patient_dob] = i['birth_date'] if i['birth_date'] and i['birth_date'].size>0 
         options[:modality] = 'SC'
         options[:study_at] = stamp
-        options[:record_at] = Time.parse(i['created_at'])
+        options[:record_at] = Time.iso8601(i['created_at']).localtime
         options[:idx] = 0
         options[:ae] = 'EMRENDOSCOPE'
         options[:station_name] = 'GI-Report'
