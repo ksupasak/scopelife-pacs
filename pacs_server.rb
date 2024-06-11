@@ -377,7 +377,7 @@ if true
           # stage 2 test all image download
            if j['ref']==nil or (j['ref'] and j['ref'].index('PACS'))
            
-           
+        options = main_options.clone
            
            
            
@@ -402,7 +402,7 @@ if true
            if File.exists?(fpath)
        
 
-           options = main_options.clone
+     
 
            options[:modality] = 'ES'
            options[:study_at] = stamp
@@ -444,6 +444,7 @@ if true
      out = File.open(logpath,'w')
            out.puts cmx
            out.puts log
+           out.puts options.to_json
      out.close
 
       end
