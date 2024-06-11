@@ -360,13 +360,25 @@ if true
     job_queue.push(job)
     
   end
+  
+  tasks = {}
 
+  
+  job_queue.each_with_index do |x,xi|
+      
+    task[xi%num_workers] = [] unless task[xi%num_workers]
+    task[xi%num_workers] << x
+    
+  end
+  
+  
+  
   workers = Array.new(num_workers) do |w|
     Thread.new do
       worker_id = w + 1
       # Each worker keeps processing jobs until the queue is empty
-      until job_queue.empty?
-        j = job_queue.pop(true) rescue nil
+      for j in task[w]
+        # j = job_queue.pop(true) rescue nil
         
         
         unless j.nil?
