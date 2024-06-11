@@ -352,19 +352,19 @@ if true
   num_workers = NUM_WORKERS
 
   # Create a thread-safe Queue for jobs
-  job_queue = Queue.new
-  
-  
-  for job in i['imgs']
-    
-    job_queue.push(job)
-    
-  end
+  # job_queue = Queue.new
+ #
+ #
+ #  for job in i['imgs']
+ #
+ #    job_queue.push(job)
+ #
+ #  end
   
   tasks = {}
 
   
-  job_queue.each_with_index do |x,xi|
+  i['imgs'].each_with_index do |x,xi|
       
     task[xi%num_workers] = [] unless task[xi%num_workers]
     task[xi%num_workers] << x
