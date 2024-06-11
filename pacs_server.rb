@@ -366,8 +366,8 @@ if true
   
   i['imgs'].each_with_index do |x,xi|
       
-    task[xi%num_workers] = [] unless task[xi%num_workers]
-    task[xi%num_workers] << x
+    tasks[xi%num_workers] = [] unless tasks[xi%num_workers]
+    tasks[xi%num_workers] << x
     
   end
   
@@ -377,7 +377,7 @@ if true
     Thread.new do
       worker_id = w + 1
       # Each worker keeps processing jobs until the queue is empty
-      for j in task[w]
+      for j in tasks[w]
         # j = job_queue.pop(true) rescue nil
         
         
